@@ -18,11 +18,11 @@ You can find a list of commands to use during development inside of `package.jso
 ```
 dev - starts dev server and wathcing for changes in the script
 build - builds a production copy of your app that's ready to be deployed
-export - idk, it does something though
+export - exports the app to static files
 start - starts production build
-cy:run - idk what cypress is 
-cy:open - I still don't know what cypress is
-test - runs tests but has something to do with cypress so idk
+cy:run - runs Cypress tests to completion
+cy:open - opens the Cypress Test Runner.
+test - runs cypress tests (add your tests to cypress/integration/spec.js)
 ```
 
 ## Structure
