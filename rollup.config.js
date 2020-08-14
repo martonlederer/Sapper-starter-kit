@@ -9,6 +9,7 @@ import typescript from 'rollup-plugin-typescript2'
 import autoPreprocess, { sass, typescript as typescriptprocess } from 'svelte-preprocess'
 import config from 'sapper/config/rollup.js'
 import pkg from './package.json'
+import { string } from 'rollup-plugin-string'
 
 const 
   path = require('path').resolve(__dirname, 'src'),
@@ -58,7 +59,10 @@ export default {
 				browser: true,
 			}),
 			commonjs(),
-			typescript(),
+      typescript(),
+      string({
+        include: "**/*.graphql"
+      }),
 
 			legacy &&
 				babel({
@@ -112,7 +116,10 @@ export default {
 			}),
 			resolve(),
 			commonjs(),
-			typescript(),
+      typescript(),
+      string({
+        include: "**/*.graphql"
+      }),
 		],
 		external: Object.keys(pkg.dependencies).concat(
 			require('module').builtinModules ||

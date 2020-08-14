@@ -1,12 +1,7 @@
 import { makeExecutableSchema } from 'graphql-tools'
 import resolvers from './resolverMap'
 import { GraphQLSchema } from 'graphql'
-
-let typeDefs = `type Query {
-  
-  helloWorld: String!
-
-}`
+import typeDefs from './graphql/schema.graphql'
 
 const schema: GraphQLSchema = makeExecutableSchema({ typeDefs, resolvers })
 
