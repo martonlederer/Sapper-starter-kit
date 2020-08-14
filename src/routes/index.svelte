@@ -3,6 +3,7 @@
   import usersQuery from '../api/users.graphql'
   import { onMount } from 'svelte'
   import axios from 'axios'
+  import { fade } from 'svelte/transition'
 
   const users = getUsers()
   
@@ -40,7 +41,7 @@
       Loading...
     {:then res}
       {#each res as user}
-        <li>{user.name} (ID: {user.id})</li>
+        <li in:fade={{ duration: 300 }}>{user.name} (ID: {user.id})</li>
       {/each}
     {:catch error}
       {error}
