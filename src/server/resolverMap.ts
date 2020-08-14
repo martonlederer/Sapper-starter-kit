@@ -4,11 +4,10 @@ const resolverMap: IResolvers = {
 
   Query: {
 
-    helloWorld(_: void, args: void): string {
+    helloWorld: (_: void, args: void): boolean => true,
+    users: () => [{ name: 'test', id: 1 }],
+    me: () => { return { name: 'the_user', id: 2 } }
 
-      return `👋 Hello world! 👋`;
-
-    }
   }
 
 }

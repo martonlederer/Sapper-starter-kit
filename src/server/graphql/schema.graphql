@@ -1,5 +1,14 @@
 type Query {
   
-  helloWorld: String!
+  helloWorld: Boolean,
+  users: [User]!,
+  me: User
+
+}
+
+type User {
+
+  name: String,
+  id: ID
 
 }
