@@ -1,8 +1,8 @@
 <script lang="ts">
 
-  import usersQuery from '../api/users.graphql'
+  import usersQuery from '../api/queries/users.graphql'
+  import query from '../api/graphql.ts'
   import { onMount } from 'svelte'
-  import axios from 'axios'
   import { fade } from 'svelte/transition'
 
   const users = getUsers()
@@ -10,20 +10,8 @@
   async function getUsers(): Promise<Record<string, any>[]> {
 
     if(!process.browser) return
-
-    let res
-    await axios({ 
-
-      url: '/graphql',
-      method: 'post', 
-      headers: { 'Content-Type': 'application/json' }, 
-      data: { query: usersQuery } 
-    
-    })
-      .then(response => res = response.data)
-      .catch(error => { throw new Error(error.message) })
-
-    return res.data.users
+    let res: Record<string, any> = await query({ query: usersQuery })
+    return res.users
 
   }
   
