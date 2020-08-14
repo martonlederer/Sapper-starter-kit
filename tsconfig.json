@@ -2,7 +2,7 @@
 	"extends": "@tsconfig/svelte/tsconfig.json",
 	"include": ["src/**/*", "typings"],
   "exclude": ["node_modules/*", "__sapper__/*", "public/*", "src/service-worker.js"],
-  "files": ["typings/graphql.d.ts"],
+  "files": ["typings/graphql/graphql.d.ts"],
 	"compilerOptions": {
 		"target": "ESNEXT",
 		"module": "ESNEXT",
