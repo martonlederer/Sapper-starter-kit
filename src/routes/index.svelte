@@ -51,6 +51,5 @@
 
 	h1
     font-size: 3em
-    color: $primary-color
 
 </style>
