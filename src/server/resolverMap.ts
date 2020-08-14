@@ -6,7 +6,8 @@ const resolverMap: IResolvers = {
 
     helloWorld: (_: void, args: void): boolean => true,
     users: () => [{ name: 'test', id: 1 }],
-    me: () => { return { name: 'the_user', id: 2 } }
+    me: () => { return { name: 'the_user', id: 2 } },
+    user: (_: void, args: void) => { return { name: 'afc', id: args['id'] } }
 
   }
 

@@ -3,12 +3,13 @@ type Query {
   helloWorld: Boolean,
   users: [User]!,
   me: User
+  user(id: Int!): User
 
 }
 
 type User {
 
   name: String,
-  id: ID
+  id: Int
 
 }
