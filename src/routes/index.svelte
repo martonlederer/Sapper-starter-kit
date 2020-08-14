@@ -2,7 +2,6 @@
 
   import usersQuery from '../api/queries/users.graphql'
   import query from '../api/graphql.ts'
-  import { onMount } from 'svelte'
   import { fade } from 'svelte/transition'
 
   const users = getUsers()

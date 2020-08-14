@@ -2,7 +2,7 @@ import axios from 'axios'
 
 interface GraphQLQuery {
 
-  query: string,
+  query: string
   variables: Record<string, any>
 
 }
