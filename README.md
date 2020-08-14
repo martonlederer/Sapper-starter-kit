@@ -1,4 +1,5 @@
-# sapper-template
+# Sapper starter kit
+This is a basic Sapper project base with typescript and sass
 
 ### Installation 
 

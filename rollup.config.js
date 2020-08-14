@@ -6,12 +6,13 @@ import svelte from 'rollup-plugin-svelte'
 import babel from 'rollup-plugin-babel'
 import { terser } from 'rollup-plugin-terser'
 import typescript from 'rollup-plugin-typescript2'
-
+import autoPreprocess, { sass, typescript as typescriptprocess } from 'svelte-preprocess'
 import config from 'sapper/config/rollup.js'
 import pkg from './package.json'
 
-const svelteOptions = require('./svelte.config.js')
-const path = require('path').resolve(__dirname, 'src')
+const 
+  path = require('path').resolve(__dirname, 'src'),
+  tsconfigFile = require('./tsconfig.json')
 
 const alias = aliasFactory({
 	entries: [
@@ -23,9 +24,18 @@ const alias = aliasFactory({
 	],
 })
 
-const mode = process.env.NODE_ENV
-const dev = mode === 'development'
-const legacy = !!process.env.SAPPER_LEGACY_BUILD
+const mode = process.env.NODE_ENV,
+  dev = mode === 'development',
+  legacy = !!process.env.SAPPER_LEGACY_BUILD,
+  svelteOptions = {
+    dev: process.env.NODE_ENV !== 'development',
+    hydratable: true,
+    emitCss: true,
+    preprocess: autoPreprocess({
+      sass: sass({ data: `@import '${ require('path').join(process.cwd(), 'src/styles/_variables.sass') }'` }),
+      typescript: typescriptprocess({ tsconfigFile })
+    })
+  }
 
 const onwarn = (warning, onwarn) =>
 	(warning.code === 'CIRCULAR_DEPENDENCY' &&

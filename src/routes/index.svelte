@@ -1,4 +1,4 @@
-<script context="module" lang="ts" >
+<script context="module" lang="ts">
 	export async function preload(page, session) {
 		console.log('preload!', page, session)
 	}
@@ -8,8 +8,8 @@
 	import { onMount } from 'svelte'
 	import { writable } from 'svelte/store'
 
-	import Counter from '@app/components/Counter.svelte'
-
+  import Counter from '@app/components/Counter.svelte'
+  
 	/**
  	*! Adding types to variables breaks preloading
  	*  TODO: Figure out why...
@@ -47,47 +47,10 @@
 	</p>
 </div>
 
-<style lang="scss">
-	@import 'styles/_sassy';
+<style lang="sass" type="text/sass">
 
-	.page {
-		@include flex(column);
-		&.test {
-			background-color: blue;
-		}
-	}
+	h1
+    font-size: 3em
+    color: $primary-color
 
-	h1,
-	figure,
-	p {
-		text-align: center;
-		margin: 0 auto;
-	}
-
-	h1 {
-		font-size: 2.8em;
-		text-transform: uppercase;
-		font-weight: 700;
-		margin: 0 0 0.5em 0;
-	}
-
-	figure {
-		margin: 0 0 1em 0;
-	}
-
-	img {
-		width: 100%;
-		max-width: 400px;
-		margin: 0 0 1em 0;
-	}
-
-	p {
-		margin: 1em auto;
-	}
-
-	@media (min-width: 480px) {
-		h1 {
-			font-size: 4em;
-		}
-	}
 </style>
