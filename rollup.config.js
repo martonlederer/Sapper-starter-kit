@@ -16,13 +16,13 @@ const
   tsconfigFile = require('./tsconfig.json')
 
 const alias = aliasFactory({
-	entries: [
-		{ find: '@app', replacement: `${path}/` },
-		{ find: '@components', replacement: `${path}/components` },
-		{ find: '@includes', replacement: `${path}/includes` },
-		{ find: '@styles', replacement: `${path}/styles` },
-		{ find: '@routes', replacement: `${path}/routes` },
-	],
+  entries: [
+    { find: '@app', replacement: `${path}/` },
+    { find: '@components', replacement: `${path}/components` },
+    { find: '@includes', replacement: `${path}/includes` },
+    { find: '@styles', replacement: `${path}/styles` },
+    { find: '@routes', replacement: `${path}/routes` },
+  ],
 })
 
 const mode = process.env.NODE_ENV,
@@ -32,121 +32,121 @@ const mode = process.env.NODE_ENV,
     dev: process.env.NODE_ENV !== 'development',
     hydratable: true,
     emitCss: true,
-    preprocess: autoPreprocess({
-      sass: sass({ data: `@import '${ require('path').join(process.cwd(), 'src/styles/_variables.sass') }'` }),
-      typescript: typescriptprocess({ tsconfigFile })
-    })
+    preprocess: [
+      sass({ prependData: `@import '../styles/_variables.sass'` }),
+      typescriptprocess({ tsconfigFile })
+    ]
   }
 
 const onwarn = (warning, onwarn) =>
-	(warning.code === 'CIRCULAR_DEPENDENCY' &&
-		/[/\\]@sapper[/\\]/.test(warning.message)) ||
-	onwarn(warning)
+  (warning.code === 'CIRCULAR_DEPENDENCY' &&
+    /[/\\]@sapper[/\\]/.test(warning.message)) ||
+  onwarn(warning)
 
 export default {
-	client: {
-		input: config.client.input().replace(/\.js$/, '.ts'),
-		output: config.client.output(),
-		preserveEntrySignatures: false,
-		plugins: [
-			replace({
-				'process.browser': true,
-				'process.env.NODE_ENV': JSON.stringify(mode),
-			}),
-			alias,
-			svelte(svelteOptions),
-			resolve({
-				browser: true,
-			}),
-			commonjs(),
+  client: {
+    input: config.client.input().replace(/\.js$/, '.ts'),
+    output: config.client.output(),
+    preserveEntrySignatures: false,
+    plugins: [
+      replace({
+        'process.browser': true,
+        'process.env.NODE_ENV': JSON.stringify(mode),
+      }),
+      alias,
+      svelte(svelteOptions),
+      resolve({
+        browser: true,
+      }),
+      commonjs(),
       typescript(),
       string({
         include: "**/*.graphql"
       }),
 
-			legacy &&
-				babel({
-					extensions: ['.js', '.mjs', '.html', '.svelte'],
-					runtimeHelpers: true,
-					exclude: ['node_modules/@babel/**'],
-					presets: [
-						[
-							'@babel/preset-env',
-							{
-								targets: '> 0.25%, not dead',
-							},
-						],
-					],
-					plugins: [
-						'@babel/plugin-syntax-dynamic-import',
-						[
-							'@babel/plugin-transform-runtime',
-							{
-								useESModules: true,
-							},
-						],
-					],
-				}),
+      legacy &&
+        babel({
+          extensions: ['.js', '.mjs', '.html', '.svelte'],
+          runtimeHelpers: true,
+          exclude: ['node_modules/@babel/**'],
+          presets: [
+            [
+              '@babel/preset-env',
+              {
+                targets: '> 0.25%, not dead',
+              },
+            ],
+          ],
+          plugins: [
+            '@babel/plugin-syntax-dynamic-import',
+            [
+              '@babel/plugin-transform-runtime',
+              {
+                useESModules: true,
+              },
+            ],
+          ],
+        }),
 
-			!dev &&
-				terser({
-					module: true,
-				}),
-		],
+      !dev &&
+        terser({
+          module: true,
+        }),
+    ],
 
-		onwarn,
-	},
+    onwarn,
+  },
 
-	server: {
-		/**
-		 *? config.server.input returns an object instead of a string like the client does. Not sure if this is intended so I have it check the type before calling replace()
-		 */
-		input: ((typeof config.server.input() === 'string') ? config.server.input() : config.server.input().server).replace(/\.js$/, '.ts'),
-		output: config.server.output(),
-		preserveEntrySignatures: false,
-		plugins: [
-			replace({
-				'process.browser': false,
-				'process.env.NODE_ENV': JSON.stringify(mode),
-			}),
-			alias,
-			svelte({
-				...svelteOptions,
-				generate: 'ssr',
-			}),
-			resolve(),
-			commonjs(),
+  server: {
+    /**
+     *? config.server.input returns an object instead of a string like the client does. Not sure if this is intended so I have it check the type before calling replace()
+     */
+    input: ((typeof config.server.input() === 'string') ? config.server.input() : config.server.input().server).replace(/\.js$/, '.ts'),
+    output: config.server.output(),
+    preserveEntrySignatures: false,
+    plugins: [
+      replace({
+        'process.browser': false,
+        'process.env.NODE_ENV': JSON.stringify(mode),
+      }),
+      alias,
+      svelte({
+        ...svelteOptions,
+        generate: 'ssr',
+      }),
+      resolve(),
+      commonjs(),
       typescript(),
       string({
         include: "**/*.graphql"
       }),
-		],
-		external: Object.keys(pkg.dependencies).concat(
-			require('module').builtinModules ||
-				Object.keys(process.binding('natives'))
-		),
+    ],
+    external: Object.keys(pkg.dependencies).concat(
+      require('module').builtinModules ||
+        Object.keys(process.binding('natives'))
+    ),
 
-		onwarn,
-	},
-	/**
-	 ** uncomment #swts to enable typescript for the service worker.
-	 ** TS seems to work fine with the service worker but when I switch it to TS there's like 9 type errors that I'm just not trying to deal with. <3
-	 */
-	serviceworker: {
-		//#swts input: config.serviceworker.input().replace(/\.js$/, '.ts')
-		input: config.serviceworker.input(),
-		output: config.serviceworker.output(),
-		plugins: [
-			resolve(),
-			replace({
-				'process.browser': true,
-				'process.env.NODE_ENV': JSON.stringify(mode),
-			}),
-			commonjs(),
-			//#swts typescript()
-			!dev && terser(),
-		],
+    onwarn,
+  },
+  /**
+   ** uncomment #swts to enable typescript for the service worker.
+   ** TS seems to work fine with the service worker but when I switch it to TS there's like 9 type errors that I'm just not trying to deal with. <3
+   */
+  serviceworker: {
+    //#swts input: config.serviceworker.input().replace(/\.js$/, '.ts')
+    input: config.serviceworker.input(),
+    output: config.serviceworker.output(),
+    plugins: [
+      resolve(),
+      replace({
+        'process.browser': true,
+        'process.env.NODE_ENV': JSON.stringify(mode),
+      }),
+      commonjs(),
+      //#swts typescript()
+      !dev && terser(),
+    ],
 
-		onwarn,
-	},
+    onwarn,
+  },
 }

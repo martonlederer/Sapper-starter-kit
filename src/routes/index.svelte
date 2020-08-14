@@ -30,11 +30,11 @@
 </script>
 
 <svelte:head>
-	<title>Sapper project template</title>
+  <title>Sapper project template</title>
 </svelte:head>
 
 <div class="page test home">
-	<h1>Great success!</h1>
+  <h1>Great success!</h1>
   <h2>Users:</h2>
   <ul class="users">
     {#await users}
@@ -47,15 +47,15 @@
       {error}
     {/await}
   </ul>
-	<figure>
-		<img alt="Borat" src="great-success.png" />
-		<figcaption>HIGH FIVE!</figcaption>
-	</figure>
-	<p>
-		<strong>
-			Try editing this file (src/routes/index.svelte) to test live reloading.
-		</strong>
-	</p>
+  <figure>
+    <img alt="Borat" src="great-success.png" />
+    <figcaption>HIGH FIVE!</figcaption>
+  </figure>
+  <p>
+    <strong>
+      Try editing this file (src/routes/index.svelte) to test live reloading.
+    </strong>
+  </p>
 </div>
 
 <style lang="sass">
@@ -63,6 +63,7 @@
   .home
     h1
       font-size: 3em
+      color: $primary-color
 
     ul.users
       margin: 0
