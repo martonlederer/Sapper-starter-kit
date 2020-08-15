@@ -4,7 +4,7 @@ This is a basic Sapper project base with typescript and sass
 ### Installation 
 
 ```bash
-git clone https://github.com/MichealPearce/sapped-svelte-ts-boilerplate.git [name of app folder]
+git clone https://github.com/martonlederer/Sapper-starter-kit.git [name of app folder]
 cd [name of app folder]
 yarn install
 ```
@@ -32,7 +32,7 @@ Sapper expects to find two directories in the root of your project — `src` and
 
 ### src
 
-The [src](src) directory contains the entry points for your app — `client.js`, `server.js` and (optionally) a `service-worker.js` — along with a `template.html` file and a `routes` directory.
+The [src](src) directory contains the entry points for your app — `client.ts`, `server.ts` and (optionally) a `service-worker.js` — along with a `template.html` file and a `routes` directory.
 
 #### src/routes
 
@@ -40,7 +40,7 @@ This is the heart of your Sapper app. There are two kinds of routes — _pages_,
 
 **Pages** are Svelte components written in `.svelte` files. When a user first visits the application, they will be served a server-rendered version of the route in question, plus some JavaScript that 'hydrates' the page and initialises a client-side router. From that point forward, navigating to other pages is handled entirely on the client for a fast, app-like feel. (Sapper will preload and cache the code for these subsequent pages, so that navigation is instantaneous.)
 
-**Server routes** are modules written in `.js` files, that export functions corresponding to HTTP methods. Each function receives Express `request` and `response` objects as arguments, plus a `next` function. This is useful for creating a JSON API, for example.
+**Server routes** are modules written in `.ts` files, that export functions corresponding to HTTP methods. Each function receives Express `request` and `response` objects as arguments, plus a `next` function. This is useful for creating a JSON API, for example.
 
 There are three simple rules for naming the files that define your routes:
 
