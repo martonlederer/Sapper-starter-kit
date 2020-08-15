@@ -1,0 +1,10 @@
+query ($id: Int!) {
+
+  user(id: $id) {
+
+    name
+    id
+
+  }
+  
+}

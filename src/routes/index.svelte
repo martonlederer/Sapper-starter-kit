@@ -1,16 +1,27 @@
 <script lang="ts">
 
   import usersQuery from '../api/queries/users.graphql'
+  import userQuery from '../api/queries/user.graphql'
   import query from '../api/graphql.ts'
   import { fade } from 'svelte/transition'
 
-  const users = getUsers()
+  const 
+    users = getUsers(),
+    exampleUser = getUser(10)
   
   async function getUsers(): Promise<Record<string, any>[]> {
 
     if(!process.browser) return
     let res: Record<string, any> = await query({ query: usersQuery })
     return res.users
+
+  }
+
+  async function getUser(id: number): Promise<Record<string, any>> {
+
+    if(!process.browser) return
+    let res: Record<string, any> = await query({ query: userQuery, variables: { id } })
+    return res
 
   }
   
@@ -34,6 +45,12 @@
       {error}
     {/await}
   </ul>
+  <h2>Get one user by id 10:</h2>
+  {#await exampleUser}
+    Loading...
+  {:then { user }}
+    <h3 in:fade={{ duration: 300 }}>{user.name} (id: {user.id})</h3>
+  {/await}
   <figure>
     <img alt="Borat" src="great-success.png" />
     <figcaption>HIGH FIVE!</figcaption>
